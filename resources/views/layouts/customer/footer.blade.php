@@ -21,9 +21,9 @@
                 <div class="col-lg-4 col-md-6 footer-links">
                     <h4>Useful Links</h4>
                     <ul>
-                        <li><i class="bi bi-chevron-right"></i> <a href="index.html">Home</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="book.html">Book Now</a></li>
-                        <li><i class="bi bi-chevron-right"></i> <a href="contact.html">Contact</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="{{ route('index') }}">Home</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="{{ route('book') }}">Book Now</a></li>
+                        <li><i class="bi bi-chevron-right"></i> <a href="{{ route('contact') }}">Contact</a></li>
                     </ul>
                 </div>
             </div>

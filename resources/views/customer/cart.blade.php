@@ -32,7 +32,7 @@
                                             <div class="col-lg-6 text-end">
                                                 <a href="" style="color: #A0A4A8;" field-id="474"
                                                     slot-group-id="tgfwyw5nyw4grnv0c2fside" class="slot-delete delete-slot-item"
-                                                    onclick="event.preventDefault(); document.getElementById('delete-{{ $item->id }}').submit();">
+                                                    onclick="document.getElementById('delete-{{ $item->id }}').submit();">
                                                     [Hapus]
                                                 </a>
                                                 <form id="delete-{{ $item->id }}" action="{{ route('delete_cart') }}" method="POST" class="d-none">

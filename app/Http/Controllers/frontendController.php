@@ -115,6 +115,7 @@ class frontendController extends Controller
     public function delete_cart(Request $request)
     {
         $data = Cart::where('id', $request->id)->first();
+        dd($data);
         $data->delete();
         return redirect()->route('cart');
     }
