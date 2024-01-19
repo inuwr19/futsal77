@@ -23,6 +23,7 @@ Route::controller(App\Http\Controllers\frontendController::class)->group(functio
     Route::middleware(['auth'])->group(function () {
         Route::get('/cart', 'cart')->name('cart');
         Route::post('/addCart', 'addCart')->name('addCart');
+        Route::post('/post_checkout', 'post_checkout')->name('post_checkout');
         Route::delete('/delete_cart', 'delete_cart')->name('delete_cart');
         Route::post('logout', 'logout')->name('logout');
     });

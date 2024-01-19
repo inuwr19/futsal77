@@ -10,3 +10,18 @@
     <script src="https://kit.fontawesome.com/dedca05a0a.js" crossorigin="anonymous"></script>
     <!-- Template Main JS File -->
     <script src="{{ asset('customer') }}/js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $(document).on('click', '.delete-item-btn', function () {
+                var itemId = $(this).data('item-id');
+                var deleteForm = $('#delete-' + itemId);
+
+                if (confirm('Apakah Anda yakin ingin menghapus item ini?')) {
+                    deleteForm.submit();
+                }
+            });
+        });
+
+    </script>

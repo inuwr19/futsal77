@@ -115,8 +115,33 @@ class frontendController extends Controller
     public function delete_cart(Request $request)
     {
         $data = Cart::where('id', $request->id)->first();
-        dd($data);
+        // dd($data);
         $data->delete();
         return redirect()->route('cart');
     }
+
+    // public function post_checkout(Request $request)
+    // {
+    //     $atr                  = new Order();
+    //     $atr->customer_id     = Auth::user()->id;
+    //     $atr->code_order      = date('YmdHis');
+    //     $atr->total_price     = $request->total_price;
+    //     $atr->address         = $request->address;
+    //     $atr->save();
+
+    //     $cart  = Cart::with('product')->where('customer_id', Auth::user()->id)->get();
+    //     foreach ($cart as $item) {
+    //         $orderProduct               = new OrderProduct();
+    //         $orderProduct->order_id     = $atr->id;
+    //         $orderProduct->product_id   = $item->product_id;
+    //         $orderProduct->sub_price    = $item->qty * $item->product->price;
+    //         $orderProduct->qty          = $item->qty;
+    //         $orderProduct->save();
+
+    //         $cart_id                    = Cart::where('id', $item->id)->first();
+    //         $cart_id->delete();
+    //     }
+
+    //     return redirect()->route('reviewrating', $atr->id);
+    // }
 }
