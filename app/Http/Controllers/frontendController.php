@@ -106,7 +106,7 @@ class frontendController extends Controller
         $hour = Hour::find($request->time_id);
         $cart = new Cart;
         $cart->user_id = Auth::user()->id;
-            // $cart->cart_id = 'trx-'.mt_rand(1000,9999);
+            $cart->cart_id = mt_rand(1000,9999);
             $cart->date = $request->date;
             $cart->start_time = $hour->start_time;
             $cart->end_time = $hour->end_time;
