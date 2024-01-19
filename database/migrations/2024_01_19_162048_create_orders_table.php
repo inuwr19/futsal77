@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('cart_id');
+            $table->string('code_order')->nullable();
+            $table->bigInteger('total_price')->default(0);
             $table->timestamps();
         });
     }

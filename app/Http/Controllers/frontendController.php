@@ -40,8 +40,11 @@ class frontendController extends Controller
     }
     public function cart()
     {
-        $data['cart'] = Cart::where('user_id', auth()->user()->id)->get();
-        // dd($data);
+        $data['total']  = 0;
+        $data['cart'] = Cart::with('hour')->where('user_id', auth()->user()->id)->get();
+        foreach ($data['cart'] as $item){
+            $data['total'] += $item->price;
+        }
         return view('customer.cart', $data);
     }
     public function redirectToGoogle()
@@ -103,6 +106,7 @@ class frontendController extends Controller
         $hour = Hour::find($request->time_id);
         $cart = new Cart;
         $cart->user_id = Auth::user()->id;
+            // $cart->cart_id = 'trx-'.mt_rand(1000,9999);
             $cart->date = $request->date;
             $cart->start_time = $hour->start_time;
             $cart->end_time = $hour->end_time;

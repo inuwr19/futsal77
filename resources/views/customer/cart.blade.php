@@ -86,7 +86,7 @@
                                             <p>Biaya Sewa</p>
                                         </div>
                                         <div class="col-lg-6 text-end">
-                                            <p>{{ __('Rp.').number_format($item->price,2,',','.') }}</p>
+                                            <p>{{ __('Rp.').number_format($total,2,',','.') }}</p>
                                         </div>
                                         <div class="col-lg-6">
                                             <p>Biaya Layanan</p>
@@ -99,9 +99,9 @@
                                             <p class="fw-bold">Total Biaya</p>
                                         </div>
                                         <div class="col-lg-6 text-end">
-                                            <p class="fw-bold">Rp75.000</p>
+                                            <p class="fw-bold">{{ "Rp." .number_format($total+5000, 2, ",", ".") }}</p>
                                         </div>
-                                        {{-- <input type="hidden" name="total_price" value="{{ $total+($total*5/100) }}"> --}}
+                                        <input type="hidden" name="total_price" value="{{ $total+5000 }}">
                                     </div>
                                 </div>
                             </div>
