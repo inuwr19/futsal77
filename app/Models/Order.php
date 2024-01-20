@@ -11,12 +11,12 @@ class Order extends Model
     protected $table = "orders";
     protected $guarded = [];
 
-    public function cart()
+    public function order_product()
     {
-        return $this->hasMany(Cart::class, 'cart_id');
+        return $this->hasMany(OrderProduct::class);
     }
 
-    public function customer()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

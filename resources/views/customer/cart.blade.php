@@ -43,12 +43,12 @@
                                         <div class="row ml-2">
                                             <div class="col-lg-6">
                                                 <span class="slot-time">
-                                                    {{ $item->start_time.' - '.$item->end_time }}
+                                                    {{ $item->hour->start_time.' - '.$item->hour->end_time }}
                                                 </span>
                                             </div>
                                             <div class="col-lg-6 text-end">
                                                 <span class="slot-price">
-                                                    {{ __('Rp.').number_format($item->price,2,',','.') }}
+                                                    {{ __('Rp.').number_format($item->hour->price,2,',','.') }}
                                                 </span>
                                             </div>
                                         </div>
@@ -102,6 +102,12 @@
                                             <p class="fw-bold">{{ "Rp." .number_format($total+5000, 2, ",", ".") }}</p>
                                         </div>
                                         <input type="hidden" name="total_price" value="{{ $total+5000 }}">
+                                        <form class="col-lg-12 text-center" action="{{ route('payment') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="total_price" value="{{ $total+5000 }}">
+                                            <button type="submit">asdasd</button>
+                                        </form>
+
                                     </div>
                                 </div>
                             </div>

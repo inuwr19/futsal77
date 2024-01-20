@@ -1,5 +1,6 @@
 <?php
 
+use App\Helper\SettingHelper;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -193,7 +194,7 @@ return [
         /*
          * Application Service Providers...
          */
-        
+
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
@@ -215,6 +216,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Setting' => App\Helper\SettingHelper::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 

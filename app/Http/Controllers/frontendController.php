@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Cart;
 use App\Models\Hour;
 use App\Models\User;
+use Midtrans\Config;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Neighbor;
@@ -13,12 +15,12 @@ use App\Models\MatrixRating;
 use App\Models\OrderProduct;
 use App\Models\RecordRating;
 use Illuminate\Http\Request;
+use App\Helper\SettingHelper;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
-use Carbon\Carbon;
 
 
 class frontendController extends Controller
@@ -30,6 +32,7 @@ class frontendController extends Controller
 
     public function book()
     {
+        // $data['cart'] = Cart::where('user_id')
         $data['hours'] = Hour::all();
         return view('customer.book', $data);
     }
@@ -43,7 +46,7 @@ class frontendController extends Controller
         $data['total']  = 0;
         $data['cart'] = Cart::with('hour')->where('user_id', auth()->user()->id)->get();
         foreach ($data['cart'] as $item){
-            $data['total'] += $item->price;
+            $data['total'] += $item->hour->price;
         }
         return view('customer.cart', $data);
     }
@@ -106,11 +109,8 @@ class frontendController extends Controller
         $hour = Hour::find($request->time_id);
         $cart = new Cart;
         $cart->user_id = Auth::user()->id;
-            $cart->cart_id = mt_rand(1000,9999);
+            $cart->hour_id=$request->time_id;
             $cart->date = $request->date;
-            $cart->start_time = $hour->start_time;
-            $cart->end_time = $hour->end_time;
-            $cart->price = $hour->price;
         $cart->save();
         // dd($cart);
         return redirect()->route('cart');
@@ -124,28 +124,91 @@ class frontendController extends Controller
         return redirect()->route('cart');
     }
 
-    // public function post_checkout(Request $request)
-    // {
-    //     $atr                  = new Order();
-    //     $atr->customer_id     = Auth::user()->id;
-    //     $atr->code_order      = date('YmdHis');
-    //     $atr->total_price     = $request->total_price;
-    //     $atr->address         = $request->address;
-    //     $atr->save();
+    public function payment(Request $request)
+    {
+        // dd($request->all());
+        $trx = new Order;
+        $trx->code_order = 'TRX-' . mt_rand(00000, 99999).time();
+        $trx->total_price = (int) $request->total_price;
+        $trx->status = 'unpaid';
+        $trx->user_id = auth()->user()->id;
+        $trx->save();
 
-    //     $cart  = Cart::with('product')->where('customer_id', Auth::user()->id)->get();
-    //     foreach ($cart as $item) {
-    //         $orderProduct               = new OrderProduct();
-    //         $orderProduct->order_id     = $atr->id;
-    //         $orderProduct->product_id   = $item->product_id;
-    //         $orderProduct->sub_price    = $item->qty * $item->product->price;
-    //         $orderProduct->qty          = $item->qty;
-    //         $orderProduct->save();
+        $carts = Cart::with('hour')->where('user_id', auth()->user()->id)->get();
+        foreach ($carts as $cart) {
+            $op = new OrderProduct;
+            $op->order_id = $trx->id;
+            $op->hour_id = $cart->hour->id;
+            $op->date = $cart->date;
+            $op->save();
 
-    //         $cart_id                    = Cart::where('id', $item->id)->first();
-    //         $cart_id->delete();
-    //     }
+            Cart::destroy($cart->id);
+        }
 
-    //     return redirect()->route('reviewrating', $atr->id);
-    // }
+        return redirect()->route('midtrans', $trx->id);
+    }
+
+    public function midtrans($id)
+    {
+        $trx = Order::find($id);
+        $orders = OrderProduct::where('order_id',$trx->id)->get();
+        $user = $trx->user;
+
+        //Set Your server key
+        Config::$serverKey = SettingHelper::midtrans_api();
+        // Uncomment for production environment
+        // Config::$isProduction = true;
+        Config::$isSanitized = Config::$is3ds = true;
+        Config::$overrideNotifUrl = route('midtrans_notify');
+
+        $trx_details = array(
+            'order_id' => $trx->kode_transaksi,
+            'gross_amount' => round($trx->total_price),
+        );
+
+        $item_details = [];
+        foreach($orders as $order) {
+            $product = $order->product;
+            $item = array(
+                'id' => $product->id,
+                'price' => $product->price,
+                'quantity' => 1,
+                'name' => ''
+            );
+            array_push($item_details, $item);
+        }
+
+        $user_details = array(
+            'first_name'    => $user->name,
+            'last_name'     => '',
+            'email'         => $user->email,
+            'phone'         => '',
+        );
+
+        // Optional, remove this to display all available payment methods
+        // $enable_payments = array('credit_card','cimb_clicks','mandiri_clickpay','echannel');
+
+        $params = [
+            'transaction_details' => $trx_details,
+            'item_details' => $item_details,
+            'customer_details' => $user_details,
+            'callbacks' => [
+                'finish' => route('payments_finish')
+            ]
+        ];
+
+        try {
+            // Get Snap Payment Page URL
+            $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
+            $atr->link_pembayaran = $paymentUrl;
+            $atr->update();
+            dd($paymentUrl);
+            return redirect($paymentUrl);
+        }
+        catch (Exception $e) {
+            return dd($e->getMessage());
+        }
+        // $data['order']=Order::find($id);
+        // return view('customer.midtrans', $data);
+    }
 }
