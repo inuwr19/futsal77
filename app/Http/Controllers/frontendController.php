@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
 
+
 class frontendController extends Controller
 {
     public function index()
@@ -162,18 +163,18 @@ class frontendController extends Controller
         Config::$overrideNotifUrl = route('midtrans_notify');
 
         $trx_details = array(
-            'order_id' => $trx->kode_transaksi,
+            'order_id' => $trx->code_order,
             'gross_amount' => round($trx->total_price),
         );
 
         $item_details = [];
         foreach($orders as $order) {
-            $product = $order->product;
+            $product = $order->hour;
             $item = array(
                 'id' => $product->id,
                 'price' => $product->price,
                 'quantity' => 1,
-                'name' => ''
+                'name' => 'Jam '.$product->start_time
             );
             array_push($item_details, $item);
         }
@@ -182,7 +183,7 @@ class frontendController extends Controller
             'first_name'    => $user->name,
             'last_name'     => '',
             'email'         => $user->email,
-            'phone'         => '',
+            'phone'         => '0214757573',
         );
 
         // Optional, remove this to display all available payment methods
@@ -200,9 +201,6 @@ class frontendController extends Controller
         try {
             // Get Snap Payment Page URL
             $paymentUrl = \Midtrans\Snap::createTransaction($params)->redirect_url;
-            $atr->link_pembayaran = $paymentUrl;
-            $atr->update();
-            dd($paymentUrl);
             return redirect($paymentUrl);
         }
         catch (Exception $e) {
@@ -210,5 +208,29 @@ class frontendController extends Controller
         }
         // $data['order']=Order::find($id);
         // return view('customer.midtrans', $data);
+    }
+
+    public function checkout()
+    {
+        $data['total']  = 0;
+        $data['cart'] = Cart::with('hour')->where('user_id', auth()->user()->id)->get();
+        $daysInIndonesian = [
+            'Sunday' => 'Minggu',
+            'Monday' => 'Senin',
+            'Tuesday' => 'Selasa',
+            'Wednesday' => 'Rabu',
+            'Thursday' => 'Kamis',
+            'Friday' => 'Jumat',
+            'Saturday' => 'Sabtu',
+        ];
+
+        foreach ($data['cart'] as $item){
+            $date = Carbon::parse($item->date, 'UTC');
+            $date->setTimezone('Asia/Jakarta');
+            $formattedDate = $daysInIndonesian[$date->format('l')].', '.$date->format('d F Y');
+            $data['total'] += $item->hour->price;
+            $item->formattedDate = $formattedDate;
+        }
+        return view('customer.checkout', $data);
     }
 }

@@ -6,7 +6,7 @@
         <div class="container mt-5">
             <div class="row mt-5">
                 <div class="col-lg-12">
-                    <h1>Payment</h1>
+                    <h1>Cart</h1>
                     <hr />
                 </div>
                 <div class="col-6 col-lg-6">
@@ -28,9 +28,9 @@
                                         <p>{{ $item->date }}</p>
                                     </div>
                                     <div class="col-lg-6 text-end">
-                                        <button type="button" class="btn btn-danger delete-item-btn"
+                                        <button type="button" class="btn delete-item-btn" style="color: #A0A4A8;"
                                             data-item-id="{{ $item->id }}">
-                                            Hapus
+                                            [Hapus]
                                         </button>
                                         <form id="delete-{{ $item->id }}" action="{{ route('delete_cart') }}"
                                             method="POST" class="d-none">
@@ -102,10 +102,10 @@
                                             <p class="fw-bold">{{ "Rp." .number_format($total+5000, 2, ",", ".") }}</p>
                                         </div>
                                         <input type="hidden" name="total_price" value="{{ $total+5000 }}">
-                                        <form class="col-lg-12 text-center" action="{{ route('payment') }}" method="POST">
+                                        <form class="col-lg-12 text-center" action="{{ route('checkout') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="total_price" value="{{ $total+5000 }}">
-                                            <button type="submit">asdasd</button>
+                                            <button type="submit" class="btn btn-primary">Checkout</button>
                                         </form>
 
                                     </div>

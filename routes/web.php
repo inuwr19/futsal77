@@ -23,8 +23,11 @@ Route::controller(App\Http\Controllers\frontendController::class)->group(functio
     Route::middleware(['auth'])->group(function () {
         Route::get('/cart', 'cart')->name('cart');
         Route::post('/addCart', 'addCart')->name('addCart');
+        Route::post('/checkout', 'checkout')->name('checkout');
         Route::get('/midtrans/{id}', 'midtrans')->name('midtrans');
         Route::post('/payment', 'payment')->name('payment');
+        Route::post('/midtrans_notify', 'midtrans_notify')->name('midtrans_notify');
+        Route::post('/payments_finish', 'payments_finish')->name('payments_finish');
         Route::delete('/delete_cart', 'delete_cart')->name('delete_cart');
         Route::post('logout', 'logout')->name('logout');
     });

@@ -70,92 +70,65 @@
     </section><!-- End Featured Services Section -->
 
     <!-- ======= Contact Section ======= -->
-    <section id="contact" class="contact">
+    <section id="profile" class="profile">
         <div class="container">
 
             <div class="section-header">
-                <h2>Contact Us</h2>
-                <p>Ea vitae aspernatur deserunt voluptatem impedit deserunt magnam occaecati dssumenda quas ut ad
-                    dolores
-                    adipisci aliquam.</p>
+                <h2>About Us</h2>
             </div>
 
-        </div>
-
-        <div class="map">
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.1624470468687!2d105.9848157!3d-6.5011093!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e4247241138060f%3A0xa85b89dd7c281af1!2sFutsal%2077!5e0!3m2!1sid!2sid!4v1704549162679!5m2!1sid!2sid"
-                frameborder="0" allowfullscreen></iframe>
-        </div><!-- End Google Maps -->
-
-        <div class="container">
-
-            <div class="row gy-5 gx-lg-5">
-
-                <div class="col-lg-4">
-
-                    <div class="info">
-                        <h3>Get in touch</h3>
-                        <p>Et id eius voluptates atque nihil voluptatem enim in tempore minima sit ad mollitia commodi
-                            minus.</p>
-
-                        <div class="info-item d-flex">
-                            <i class="bi bi-geo-alt flex-shrink-0"></i>
-                            <div>
-                                <h4>Location:</h4>
-                                <p>A108 Adam Street, New York, NY 535022</p>
-                            </div>
-                        </div><!-- End Info Item -->
-
-                        <div class="info-item d-flex">
-                            <i class="bi bi-envelope flex-shrink-0"></i>
-                            <div>
-                                <h4>Email:</h4>
-                                <p>info@example.com</p>
-                            </div>
-                        </div><!-- End Info Item -->
-
-                        <div class="info-item d-flex">
-                            <i class="bi bi-phone flex-shrink-0"></i>
-                            <div>
-                                <h4>Call:</h4>
-                                <p>+1 5589 55488 55</p>
-                            </div>
-                        </div><!-- End Info Item -->
-
-                    </div>
-
+            <div id="carouselExampleCaptions" class="carousel slide mb-4" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3"
+                        aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4"
+                        aria-label="Slide 5"></button>
                 </div>
-
-                <div class="col-lg-8">
-                    <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-                        <div class="row">
-                            <div class="col-md-6 form-group">
-                                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name"
-                                    required>
-                            </div>
-                            <div class="col-md-6 form-group mt-3 mt-md-0">
-                                <input type="email" class="form-control" name="email" id="email"
-                                    placeholder="Your Email" required>
-                            </div>
-                        </div>
-                        <div class="form-group mt-3">
-                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject"
-                                required>
-                        </div>
-                        <div class="form-group mt-3">
-                            <textarea class="form-control" name="message" placeholder="Message" required></textarea>
-                        </div>
-                        <div class="my-3">
-                            <div class="loading">Loading</div>
-                            <div class="error-message"></div>
-                            <div class="sent-message">Your message has been sent. Thank you!</div>
-                        </div>
-                        <div class="text-center"><button type="submit">Send Message</button></div>
-                    </form>
-                </div><!-- End Contact Form -->
-
+                <div class="carousel-inner">
+                    <div class="carousel-item active"
+                        style="background-image: url({{ asset('customer') }}/img/lapangan-luar.jpg)">
+                    </div>
+                    <div class="carousel-item"
+                        style="background-image: url({{ asset('customer') }}/img/lapangan-luar2.jpg)">
+                    </div>
+                    <div class="carousel-item"
+                        style="background-image: url({{ asset('customer') }}/img/lapangan-dalem1.jpg)">
+                    </div>
+                    <div class="carousel-item"
+                        style="background-image: url({{ asset('customer') }}/img/lapangan-dalem2.jpg)">
+                    </div>
+                    <div class="carousel-item"
+                        style="background-image: url({{ asset('customer') }}/img/lapangan-dalem3.jpg)">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
+
+            <section class="py-5">
+                <div class="container">
+                    <h1 class="fw-light">Arena Futsal 77</h1>
+                    <p class="lead">Kami selalu berusaha untuk memberikan pelayanan yang terbaik kepada pelanggan kami. Kami selalu mengutamakan kebersihan dan kenyamanan lapangan futsal kami.
+                    </p>
+                    <p class="lead">Kami mengundang Anda untuk bermain futsal bersama kami di Futsal 77. Kami yakin Anda akan puas dengan pelayanan kami.
+                    </p>
+                    <p class="lead">Terima kasih.</p>
+                </div>
+            </section>
 
         </div>
 
