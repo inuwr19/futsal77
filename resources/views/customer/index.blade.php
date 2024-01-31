@@ -130,6 +130,30 @@
                 </div>
             </section>
 
+
+            <h1>Jadwal Pertandingan</h1>
+            {{-- @if(isset($fixtures['data']) && count($fixtures['data']) > 0)
+                <ul>
+                    @foreach ($fixtures['data'] as $fixture)
+                        <li>{{ $fixture['home_team'] }} vs {{ $fixture['away_team'] }} - {{ $fixture['scheduled'] }}</li>
+                    @endforeach
+                </ul>
+            @else
+                @if(isset($fixtures['message']))
+                    <p>{{ $fixtures['message'] }}</p>
+                @else
+                    <p>Tidak ada jadwal pertandingan tersedia.</p>
+                @endif
+            @endif --}}
+
+            <!-- LIVESCORE WIDGET SOCCERSAPI.COM -->
+            <div id="ls-widget" data-w="awo_w4052_65ba4597cd139" class="livescore-widget"></div>
+            <script type="text/javascript" src="https://ls.soccersapi.com/widget/res/awo_w4052_65ba4597cd139/widget.js"></script>
+            <!-- LIVESCORE WIDGET SOCCERSAPI.COM -->
+            <!-- LIVESCORE WIDGET SOCCERSAPI.COM -->
+            {{-- <div id="ls-widget" data-w="w_default" class="livescore-widget"></div>
+            <script type="text/javascript" src="https://ls.soccersapi.com/widget/res/w_default/widget.js"></script> --}}
+            <!-- LIVESCORE WIDGET SOCCERSAPI.COM -->
         </div>
 
     </section><!-- End Contact Section -->

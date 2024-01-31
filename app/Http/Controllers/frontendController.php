@@ -21,13 +21,44 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
+use GuzzleHttp\Client;
+
 
 
 
 class frontendController extends Controller
 {
+    // private $username;
+    // private $apiKey;
+    // private $baseUrl;
+
+    // public function __construct()
+    // {
+    //     $this->username = config('app.soccersapi_username');
+    //     $this->apiKey = config('app.soccersapi_key');
+    //     $this->baseUrl = 'https://api.soccersapi.com/v2.2/'; // Hanya URL dasar tanpa query parameters
+    // }
+
     public function index()
     {
+        // $date = Carbon::now();
+        // echo "Date: " . $date->toDateString() . PHP_EOL;
+
+        // $limit = 1; // Sesuaikan sesuai kebutuhan Anda
+        // $leagueId = 39; // ID untuk Liga Inggris
+
+        // $client = new Client();
+
+        // $response = $client->get("{$this->baseUrl}leagues/{$leagueId}/fixtures", [
+        //     'query' => [
+        //         'user' => $this->username,
+        //         'token' => $this->apiKey,
+        //         't' => $date->toDateString(), // Menggunakan toDateString() untuk mendapatkan format YYYY-MM-DD
+        //         'limit' => $limit,
+        //     ],
+        // ]);
+        // $fixtures = json_decode($response->getBody()->getContents(), true);
+
         return view('customer.index');
     }
 
