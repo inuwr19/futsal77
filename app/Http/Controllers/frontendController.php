@@ -34,7 +34,30 @@ class frontendController extends Controller
     public function book()
     {
         // $data['cart'] = Cart::where('user_id')
+        // $data['order'] = OrderProduct::where('date',date('Y-m-d'))->get();
+        // foreach ($data['order'] as $item){
+        //     $data['hour'] = Hour::where('id', $item->hour_id)->get();
+        // }
+        // foreach ($data['hour'] as $item){
+        //     $data['terisi'] = Hour::where('start_time',$item->start_time)->where('end_time',$item->end_time)->get();
+        //     $data['kosong'] = Hour::where('start_time','!=',$item->start_time)->where('end_time','!=',$item->end_time)->get();
+        //     foreach ($data['kosong'] as $item){
+        //         $data['id'][] = ['id' => $item->id];
+        //         $data['status'][] = ['status' => 'kosong'];
+        //     }
+        //     foreach ($data['terisi'] as $item){
+        //         $data['id'][] = ['id' => $item->id];
+        //         $data['status'][] = ['status' => 'terisi'];
+        //     }
+        // }
+        // $data['id'] = $data['id'];
+        // $data['status'] = $data['status'];
+        // $status = array_combine($data['id'],$data['status']);
+        // $data['status'] = $status;
         $data['hours'] = Hour::all();
+
+        // dd($data);
+
         return view('customer.book', $data);
     }
 
@@ -120,7 +143,6 @@ class frontendController extends Controller
     public function delete_cart(Request $request)
     {
         $data = Cart::where('id', $request->id)->first();
-        // dd($data);
         $data->delete();
         return redirect()->route('cart');
     }
