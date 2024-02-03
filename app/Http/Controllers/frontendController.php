@@ -8,9 +8,11 @@ use App\Models\Hour;
 use App\Models\User;
 use Midtrans\Config;
 use App\Models\Order;
+use GuzzleHttp\Client;
 use App\Models\Product;
 use App\Models\Neighbor;
 use App\Models\Prediction;
+use Midtrans\Notification;
 use App\Models\MatrixRating;
 use App\Models\OrderProduct;
 use App\Models\RecordRating;
@@ -21,7 +23,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
-use GuzzleHttp\Client;
 
 
 
@@ -247,7 +248,7 @@ class frontendController extends Controller
             'item_details' => $item_details,
             'customer_details' => $user_details,
             'callbacks' => [
-                'finish' => route('payments_finish')
+                'finish' => route('index')
             ]
         ];
 
@@ -286,4 +287,24 @@ class frontendController extends Controller
         }
         return view('customer.checkout', $data);
     }
+
+    public function midtransNotification()
+{
+    // Handle Midtrans notification
+    $notification = new Notification();
+
+    // Get the order ID from the notification
+    $orderId = $notification->order_id;
+
+    // Find the order in your database
+    $order = Order::where('code_order', $orderId)->first();
+
+    // Check if the transaction is successful
+    if ($notification->transaction_status == 'capture') {
+        // Update the order status to 'paid'
+        $order->update(['status' => 'paid']);
+        $order->save();
+    }
+
+}
 }

@@ -1,5 +1,6 @@
 <link rel="icon" href="{{ asset('customer') }}/img/logo.jpg" >
 <link rel="apple-touch-icon" type="image/x-icon" href="{{ asset('customer') }}/img/logo.jpg" >
+<meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
