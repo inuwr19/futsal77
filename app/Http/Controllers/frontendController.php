@@ -185,7 +185,7 @@ class frontendController extends Controller
         $trx = new Order;
         $trx->code_order = 'TRX-' . mt_rand(00000, 99999).time();
         $trx->total_price = (int) $request->total_price;
-        $trx->status = 'unpaid';
+        $trx->status = 'paid';
         $trx->user_id = auth()->user()->id;
         $trx->save();
 
@@ -288,7 +288,7 @@ class frontendController extends Controller
         return view('customer.checkout', $data);
     }
 
-    public function midtransNotification()
+    public function midtrans_notify()
 {
     // Handle Midtrans notification
     $notification = new Notification();
