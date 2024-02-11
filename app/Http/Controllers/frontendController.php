@@ -63,34 +63,29 @@ class frontendController extends Controller
         return view('customer.index');
     }
 
-    public function book()
+    public function book(Request $request)
     {
-        // $data['cart'] = Cart::where('user_id')
-        // $data['order'] = OrderProduct::where('date',date('Y-m-d'))->get();
-        // foreach ($data['order'] as $item){
-        //     $data['hour'] = Hour::where('id', $item->hour_id)->get();
-        // }
-        // foreach ($data['hour'] as $item){
-        //     $data['terisi'] = Hour::where('start_time',$item->start_time)->where('end_time',$item->end_time)->get();
-        //     $data['kosong'] = Hour::where('start_time','!=',$item->start_time)->where('end_time','!=',$item->end_time)->get();
-        //     foreach ($data['kosong'] as $item){
-        //         $data['id'][] = ['id' => $item->id];
-        //         $data['status'][] = ['status' => 'kosong'];
-        //     }
-        //     foreach ($data['terisi'] as $item){
-        //         $data['id'][] = ['id' => $item->id];
-        //         $data['status'][] = ['status' => 'terisi'];
-        //     }
-        // }
-        // $data['id'] = $data['id'];
-        // $data['status'] = $data['status'];
-        // $status = array_combine($data['id'],$data['status']);
-        // $data['status'] = $status;
         $data['hours'] = Hour::all();
+        $data['orders'] = OrderProduct::all();
 
+        $selectedDate = $request->input('date', Carbon::now()->format('Y-m-d'));
+        $bookedHours = OrderProduct::where('date', $selectedDate)->pluck('hour_id')->toArray();
+        $data['bookedHours'] = $bookedHours;
+        $data['selectedDate'] = $selectedDate;
+        if ($request->ajax()) {
+            return response()->json(['bookedHours' => $bookedHours]);
+        }
         // dd($data);
 
         return view('customer.book', $data);
+    }
+
+    public function getBookedHours(Request $request)
+    {
+        $selectedDate = $request->input('date', Carbon::now()->format('Y-m-d'));
+        $bookedHours = OrderProduct::where('date', $selectedDate)->pluck('hour_id')->toArray();
+
+        return response()->json(['bookedHours' => $bookedHours]);
     }
 
     public function contact()

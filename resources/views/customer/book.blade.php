@@ -100,7 +100,11 @@
                                     @csrf
                                     {{-- <input id="datepicker" type="text" class="form-control" > --}}
                                     <fieldset>
-                                        <input type="date" class="rounded py-2 px-4 border border-gray-300" name="date"
+                                        <input
+                                            type="date"
+                                            name="date"
+                                            id="bookingDate"
+                                            class="rounded py-2 px-4 border border-gray-300"
                                             min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
                                             max="{{ \Carbon\Carbon::now()->addDays(30)->format('Y-m-d') }}" required>
                                     </fieldset>
@@ -110,16 +114,22 @@
                                         function change(value) {
                                             document.getElementById("time_id").value = value;
                                         }
-
                                     </script>
 
-                                    <div class="row">
+                                    <div class="row" id="hoursContainer">
                                         @foreach ($hours as $item)
-                                        <div class="col-md-3 mb-4">
-                                            <input type="button" class="btn btn-outline-primary"
-                                                value="{!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price,2,',','.') !!}"
-                                                onclick="change({{ $item->id }});">
-                                        </div>
+                                            <div class="col-md-3 mb-4">
+                                                @if (in_array($item->id, $bookedHours))
+                                                    <button class="btn btn-outline-secondary" disabled>
+                                                        {!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}
+                                                        (Booked)
+                                                    </button>
+                                                @else
+                                                    <input type="button" class="btn btn-outline-primary"
+                                                        value="{!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}"
+                                                        onclick="change({{ $item->id }});">
+                                                @endif
+                                            </div>
                                         @endforeach
                                         <input type="hidden" name="time_id" id="time_id" value="0">
                                         <div class="col-lg-12 mb-4 d-flex justify-content-center">
@@ -136,4 +146,42 @@
     </section>
 </main>
 <!-- End #main -->
+@endsection
+
+@section('js')
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Function to update booked hours based on the selected date
+        function updateBookedHours(selectedDate) {
+            $.ajax({
+                url: '{{ route("getBookedHours") }}',
+                type: 'GET',
+                data: { date: selectedDate },
+                success: function (data) {
+                    // Update the hidden input with the selected date
+                    $('#selectedDate').val(selectedDate);
+
+                    // Dynamically populate the hoursContainer
+                    var hoursContainer = $('#hoursContainer');
+                    hoursContainer.empty();
+                    @foreach ($hours as $item)
+                        var buttonClass = $.inArray({{ $item->id }}, data.bookedHours) !== -1 ? 'btn-outline-secondary' : 'btn-outline-primary';
+                        var button = '<div class="col-md-3 mb-4"><input type="button" class="btn ' + buttonClass + '" value="{!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}" onclick="change({{ $item->id }})"></div>';
+                        hoursContainer.append(button);
+                    @endforeach
+                }
+            });
+        }
+
+        // Initial load with the default date
+        updateBookedHours($('#bookingDate').val());
+
+        // Handle change event for the date input
+        $('#bookingDate').on('change', function () {
+            var selectedDate = $(this).val();
+            updateBookedHours(selectedDate);
+        });
+    });
+</script>
 @endsection

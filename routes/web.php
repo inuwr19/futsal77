@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 Route::controller(App\Http\Controllers\frontendController::class)->group(function() {
     Route::get('/', 'index')->name('index');
     Route::get('/book', 'book')->name('book');
+    Route::get('/getBookedHours', 'getBookedHours')->name('getBookedHours');
     Route::get('/contact', 'contact')->name('contact');
     Route::get('auth/google', 'redirectToGoogle')->name('auth.google');
     Route::get('auth/google/callback', 'handleGoogleCallback');
