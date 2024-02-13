@@ -8,6 +8,7 @@ use App\Models\Hour;
 use App\Models\Order;
 use App\Models\OrderProduct;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -29,7 +30,24 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return auth()->user()->hasRole('admin') == true ? view('home') : redirect('/');
+        $data['total'] = 0;
+        $data['order'] = Order::with('order_product')->where('status', 'paid')->orderByDesc('created_at')->get();
+        // dd($data['order']);
+        foreach ($data['order'] as $item) {
+            $data['total'] +=  $item->total_price;
+        }
+
+
+        $monthlySales = Order::selectRaw('SUM(total_price) as total, DATE_FORMAT(created_at, "%b") as month')
+        ->where('status', 'paid')
+        ->groupBy('month')
+        ->orderBy('created_at')
+        ->get();
+
+    $data['monthlySales'] = $monthlySales->pluck('total');
+    $data['months'] = $monthlySales->pluck('month');
+
+        return auth()->user()->hasRole('admin') == true ? view('home', $data) : redirect('/');
         // return view('home');
     }
     public function adminForm(Request $request)
@@ -61,8 +79,8 @@ class HomeController extends Controller
     {
         // dd($request->all());
         $trx = new Order;
-        $data = OrderProduct::find($request->time_id);
-        $hour = Hour::find($data->hour_id);
+        $data = new OrderProduct;
+        $hour = Hour::find($request->time_id);
 
         $trx->code_order = 'TRX-' . mt_rand(00000, 99999).time();
         $trx->total_price = (int) $hour->price;
@@ -70,6 +88,11 @@ class HomeController extends Controller
         $trx->user_id = auth()->user()->id;
         // dd($trx);
         $trx->save();
+
+        $data->order_id =  $trx->id;
+        $data->hour_id = $request->time_id;
+        $data->date = $request->date;
+        $data->save();
 
         return redirect()->route('home');
     }
