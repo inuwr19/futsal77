@@ -42,24 +42,6 @@ class frontendController extends Controller
 
     public function index()
     {
-        // $date = Carbon::now();
-        // echo "Date: " . $date->toDateString() . PHP_EOL;
-
-        // $limit = 1; // Sesuaikan sesuai kebutuhan Anda
-        // $leagueId = 39; // ID untuk Liga Inggris
-
-        // $client = new Client();
-
-        // $response = $client->get("{$this->baseUrl}leagues/{$leagueId}/fixtures", [
-        //     'query' => [
-        //         'user' => $this->username,
-        //         'token' => $this->apiKey,
-        //         't' => $date->toDateString(), // Menggunakan toDateString() untuk mendapatkan format YYYY-MM-DD
-        //         'limit' => $limit,
-        //     ],
-        // ]);
-        // $fixtures = json_decode($response->getBody()->getContents(), true);
-
         return view('customer.index');
     }
 
@@ -156,6 +138,7 @@ class frontendController extends Controller
 
     public function addCart(Request $request)
     {
+        dd($request->all());
         // $date = Hour::find($request->date);
         $hour = Hour::find($request->time_id);
         $cart = new Cart;

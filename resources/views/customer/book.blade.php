@@ -132,9 +132,9 @@
                                             </div>
                                         @endforeach
                                         <input type="hidden" name="time_id" id="time_id" value="0">
-                                        <div class="col-lg-12 mb-4 d-flex justify-content-center">
-                                            <button type="submit" class="btn btn-primary">Book Now</button>
-                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-4 d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary">Book Now</button>
                                     </div>
                                 </form>
                             </div>

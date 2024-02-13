@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
 
 Route::controller(App\Http\Controllers\frontendController::class)->group(function() {
     Route::get('/', 'index')->name('index');
@@ -23,6 +24,12 @@ Route::controller(App\Http\Controllers\frontendController::class)->group(functio
     });
 });
 
+Route::middleware(['auth', 'role:admin|1'])->group(function () {
+    // Route untuk Admin
+    Route::get('/admin', [AdminController::class, 'indexAdmin'])->name('indexAdmin');
+    // Tambahkan route-admin lainnya sesuai kebutuhan
+});
+
 Auth::routes([
     'login'    => true,
     'logout'   => true,
@@ -32,4 +39,10 @@ Auth::routes([
     'verify'   => false,  // for email verification
 ]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::controller(App\Http\Controllers\HomeController::class)->group(function() {
+    Route::get('/home', 'index')->name('home');
+    Route::get('/form', 'adminForm')->name('adminForm');
+    Route::get('/getBookedHours', 'getBookedHours')->name('getBookedHours');
+    Route::post('/paymentAdmin', 'paymentAdmin')->name('paymentAdmin');
+    Route::post('logout', 'logout')->name('logout');
+});

@@ -1,7 +1,7 @@
 <!-- Sidebar Start -->
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-light navbar-light">
-        <a href="{{ route('admin-home') }}" class="navbar-brand mx-4 mb-3">
+        <a href="{{ route('home') }}" class="navbar-brand mx-4 mb-3">
             <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>Futsal 77</h3>
         </a>
         <div class="d-flex align-items-center ms-4 mb-4">
@@ -15,8 +15,8 @@
             </div>
         </div>
         <div class="navbar-nav w-100">
-            <a href="{{ route('admin-home') }}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-            <a href="{{ route('admin-book')}}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Booking</a>
+            <a href="{{ route('home') }}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+            <a href="{{ route('adminForm')}}" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Booking</a>
         </div>
     </nav>
 </div>
