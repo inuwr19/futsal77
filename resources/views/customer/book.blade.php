@@ -96,47 +96,47 @@
                                 <p style="font-size: 16px;">Mulai dari</p>
                                 <h3>Rp 70,000<span style="font-size: 18px; color: rgb(124, 124, 124);"> Per
                                         Sesi</span></h3>
-                                <form method="POST" action="{{ route('addCart') }}">
-                                    @csrf
-                                    {{-- <input id="datepicker" type="text" class="form-control" > --}}
-                                    <fieldset>
-                                        <input
-                                            type="date"
-                                            name="date"
-                                            id="bookingDate"
-                                            class="rounded py-2 px-4 border border-gray-300"
-                                            min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
-                                            max="{{ \Carbon\Carbon::now()->addDays(30)->format('Y-m-d') }}" required>
-                                    </fieldset>
-                                    <hr>
+                                        <form method="POST" action="{{ route('addCart') }}">
+                                            @csrf
+                                            <fieldset>
+                                                <input
+                                                    type="date"
+                                                    name="date"
+                                                    id="bookingDate"
+                                                    class="rounded py-2 px-4 border border-gray-300"
+                                                    min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+                                                    max="{{ \Carbon\Carbon::now()->addDays(30)->format('Y-m-d') }}" required>
+                                            </fieldset>
+                                            <hr>
 
-                                    <script>
-                                        function change(value) {
-                                            document.getElementById("time_id").value = value;
-                                        }
-                                    </script>
+                                            <script>
+                                                function change(value) {
+                                                    console.log('Selected hour_id:', value);
+                                                    document.getElementById("time_id").value = value;
+                                                }
+                                            </script>
 
-                                    <div class="row" id="hoursContainer">
-                                        @foreach ($hours as $item)
-                                            <div class="col-md-3 mb-4">
-                                                @if (in_array($item->id, $bookedHours))
-                                                    <button class="btn btn-outline-secondary" disabled>
-                                                        {!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}
-                                                        (Booked)
-                                                    </button>
-                                                @else
-                                                    <input type="button" class="btn btn-outline-primary"
-                                                        value="{!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}"
-                                                        onclick="change({{ $item->id }});">
-                                                @endif
+                                            <div class="row" id="hoursContainer">
+                                                @foreach ($hours as $item)
+                                                    <div class="col-md-3 mb-4">
+                                                        @if (in_array($item->id, $bookedHours))
+                                                            <button class="btn btn-outline-secondary" disabled>
+                                                                {!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}
+                                                                (Booked)
+                                                            </button>
+                                                        @else
+                                                            <button type="button" class="btn btn-outline-primary" onclick="change({{ $item->id }});">
+                                                                {!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}
+                                                            </button>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
                                             </div>
-                                        @endforeach
-                                        <input type="hidden" name="time_id" id="time_id" value="0">
-                                    </div>
-                                    <div class="col-lg-12 mb-4 d-flex justify-content-center">
-                                        <button type="submit" class="btn btn-primary">Book Now</button>
-                                    </div>
-                                </form>
+                                            <input type="hidden" name="time_id" id="time_id" value="0">
+                                            <div class="col-lg-12 mb-4 d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-primary">Book Now</button>
+                                            </div>
+                                        </form>
                             </div>
                         </div>
                     </div>
@@ -173,6 +173,13 @@
                 }
             });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            function change(value) {
+            console.log('Selected hour_id:', value);
+            document.getElementById("time_id").value = value;
+        }
+    });
 
         // Initial load with the default date
         updateBookedHours($('#bookingDate').val());

@@ -57,27 +57,15 @@ class HomeController extends Controller
 
         return response()->json(['bookedHours' => $bookedHours]);
     }
-
-    public function addCart(Request $request)
-    {
-        // $date = Hour::find($request->date);
-        $hour = Hour::find($request->time_id);
-        $cart = new Cart;
-        $cart->user_id = Auth::user()->id;
-            $cart->hour_id=$request->time_id;
-            $cart->date = $request->date;
-        $cart->save();
-        // dd($cart);
-        return redirect()->route('cart');
-    }
-
     public function paymentAdmin(Request $request)
     {
-        dd($request->all());
-        
+        // dd($request->all());
         $trx = new Order;
+        $data = OrderProduct::find($request->time_id);
+        $hour = Hour::find($data->hour_id);
+
         $trx->code_order = 'TRX-' . mt_rand(00000, 99999).time();
-        $trx->total_price = (int) $request->price;
+        $trx->total_price = (int) $hour->price;
         $trx->status = 'paid';
         $trx->user_id = auth()->user()->id;
         // dd($trx);

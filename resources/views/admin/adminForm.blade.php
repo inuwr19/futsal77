@@ -4,12 +4,11 @@
 <!-- Form Start -->
 <div class="container-fluid pt-4 px-4">
     <div class="row g-4">
-        <div class="col-sm-12 col-xl-6">
+        <div class="col-sm-12 col-xl-12">
             <div class="bg-light rounded h-100 p-4">
                 <h6 class="mb-4">Booking Manual</h6>
                 <form method="POST" action="{{ route('paymentAdmin') }}">
                     @csrf
-                    {{-- <input id="datepicker" type="text" class="form-control" > --}}
                     <fieldset>
                         <input
                             type="date"
@@ -23,6 +22,7 @@
 
                     <script>
                         function change(value) {
+                            console.log('Selected hour_id:', value);
                             document.getElementById("time_id").value = value;
                         }
                     </script>
@@ -36,103 +36,18 @@
                                         (Booked)
                                     </button>
                                 @else
-                                    <input type="button" class="btn btn-outline-primary"
-                                        value="{!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}"
-                                        onclick="change({{ $item->id }});">
+                                    <button type="button" class="btn btn-outline-primary" onclick="change({{ $item->id }});">
+                                        {!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}
+                                    </button>
                                 @endif
                             </div>
                         @endforeach
-                        <input type="hidden" name="time_id" id="time_id" value="0">
                     </div>
+                    <input type="hidden" name="time_id" id="time_id" value="0">
                     <div class="col-lg-12 mb-4 d-flex justify-content-center">
                         <button type="submit" class="btn btn-primary">Book Now</button>
                     </div>
                 </form>
-            </div>
-        </div>
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4">Check, Radio & Switch</h6>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Default checkbox
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                    <label class="form-check-label" for="flexCheckChecked">
-                        Checked checkbox
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                    <label class="form-check-label" for="inlineCheckbox1">1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                    <label class="form-check-label" for="inlineCheckbox2">2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="option3"
-                        disabled>
-                    <label class="form-check-label" for="inlineCheckbox3">3 (disabled)</label>
-                </div>
-                <hr>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault"
-                        id="flexRadioDefault1">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Default radio
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault"
-                        id="flexRadioDefault2" checked>
-                    <label class="form-check-label" for="flexRadioDefault2">
-                        Default checked radio
-                    </label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
-                        value="option1">
-                    <label class="form-check-label" for="inlineRadio1">1</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
-                        value="option2">
-                    <label class="form-check-label" for="inlineRadio2">2</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3"
-                        value="option3" disabled>
-                    <label class="form-check-label" for="inlineRadio3">3 (disabled)</label>
-                </div>
-                <hr>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch"
-                        id="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox
-                        input</label>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch"
-                        id="flexSwitchCheckChecked" checked>
-                    <label class="form-check-label" for="flexSwitchCheckChecked">Checked switch checkbox
-                        input</label>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch"
-                        id="flexSwitchCheckDisabled" disabled>
-                    <label class="form-check-label" for="flexSwitchCheckDisabled">Disabled switch checkbox
-                        input</label>
-                </div>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch"
-                        id="flexSwitchCheckCheckedDisabled" checked disabled>
-                    <label class="form-check-label" for="flexSwitchCheckCheckedDisabled">Disabled checked
-                        switch checkbox input</label>
-                </div>
             </div>
         </div>
     </div>
@@ -166,6 +81,13 @@
             });
         }
 
+        document.addEventListener("DOMContentLoaded", function() {
+            function change(value) {
+            console.log('Selected hour_id:', value);
+            document.getElementById("time_id").value = value;
+        }
+    });
+
         // Initial load with the default date
         updateBookedHours($('#bookingDate').val());
 
@@ -176,3 +98,4 @@
         });
     });
 </script>
+@endsection

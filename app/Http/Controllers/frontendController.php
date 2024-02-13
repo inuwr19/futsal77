@@ -79,6 +79,7 @@ class frontendController extends Controller
         $data['total']  = 0;
         $data['cart'] = Cart::with('hour')->where('user_id', auth()->user()->id)->get();
         foreach ($data['cart'] as $item){
+            // dd($item);
             $data['total'] += $item->hour->price;
         }
         return view('customer.cart', $data);
@@ -138,13 +139,13 @@ class frontendController extends Controller
 
     public function addCart(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         // $date = Hour::find($request->date);
         $hour = Hour::find($request->time_id);
         $cart = new Cart;
         $cart->user_id = Auth::user()->id;
-            $cart->hour_id=$request->time_id;
-            $cart->date = $request->date;
+        $cart->hour_id = $request->input('time_id'); // Use 'time_id' to retrieve the selected hour ID
+        $cart->date = $request->date;
         $cart->save();
         // dd($cart);
         return redirect()->route('cart');
