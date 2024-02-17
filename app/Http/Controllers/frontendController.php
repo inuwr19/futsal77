@@ -122,7 +122,7 @@ class frontendController extends Controller
         }
 
         // Jika ada user langsung login saja
-        // auth('web')->login($userFromDatabase);
+        auth('web')->login($userFromDatabase);
         session()->regenerate();
 
         return redirect('/');
@@ -187,6 +187,7 @@ class frontendController extends Controller
         $trx = Order::find($id);
         $orders = OrderProduct::where('order_id',$trx->id)->get();
         $user = $trx->user;
+        // dd($trx,$orders,$user);
 
         //Set Your server key
         Config::$serverKey = SettingHelper::midtrans_api();
