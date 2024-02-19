@@ -33,21 +33,69 @@ class UsersTableSeeder extends Seeder
         $roleAdmin->syncPermissions($permissionsAdmin);
         $admin->assignRole([$roleAdmin->id]);
 
-        $user = User::create([
-            'name' => 'Muhammad Ichsan',
-            'email' => 'customer1@test.com',
-            'password' => bcrypt('password'),
-            'email_verified_at' => now(),
-            'created_at' => now(),
-            'updated_at' => now(),
-            'remember_token' => Str::random(10),
-        ]);
-        $roleUser = Role::create(['name' => 'user']);
-        $permissions = [
-            'transaction-list',
-            'history-list',
+        $usersData = [
+            [
+                'name' => 'Muhammad Ichsan',
+                'email' => 'customer1@test.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'name' => 'Agung',
+                'email' => 'customer2@test.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'name' => 'Jamal',
+                'email' => 'customer3@test.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'name' => 'Sueb',
+                'email' => 'customer4@test.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'remember_token' => Str::random(10),
+            ],
+            [
+                'name' => 'Paloy',
+                'email' => 'customer5@test.com',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+                'remember_token' => Str::random(10),
+            ],
         ];
-        $roleUser->syncPermissions($permissions);
-        $user->assignRole([$roleUser->id]);
+        foreach ($usersData as $userData) {
+            $user = User::create($userData);
+
+            // Check if 'user' role already exists
+            $roleUser = Role::where('name', 'user')->first();
+
+            if (!$roleUser) {
+                $roleUser = Role::create(['name' => 'user']);
+                $permissions = [
+                    'transaction-list',
+                    'history-list',
+                ];
+                $roleUser->syncPermissions($permissions);
+            }
+
+            $user->assignRole([$roleUser->id]);
+        }
     }
 }
