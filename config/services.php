@@ -34,7 +34,7 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => env('NGROK_CALLBACK_URL'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
     ],
     // 'GOOGLE_REDIRECT_URI'
     // NGROK_CALLBACK_URL

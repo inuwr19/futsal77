@@ -120,7 +120,7 @@
                                                 @foreach ($hours as $item)
                                                     <div class="col-md-3 mb-4">
                                                         @if (in_array($item->id, $bookedHours))
-                                                            <button class="btn btn-outline-secondary" disabled>
+                                                            <button class="btn btn-outline-secondary" disabled style="background-color: grey;">
                                                                 {!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}
                                                                 (Booked)
                                                             </button>
@@ -166,8 +166,9 @@
                     var hoursContainer = $('#hoursContainer');
                     hoursContainer.empty();
                     @foreach ($hours as $item)
-                        var buttonClass = $.inArray({{ $item->id }}, data.bookedHours) !== -1 ? 'btn-outline-secondary' : 'btn-outline-primary';
-                        var button = '<div class="col-md-3 mb-4"><input type="button" class="btn ' + buttonClass + '" value="{!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}" onclick="change({{ $item->id }})"></div>';
+                        var buttonClass = $.inArray({{ $item->id }}, data.bookedHours) !== -1 ? 'btn-secondary btn-outline-secondary booked' : 'btn-outline-primary';
+                        var buttonText = $.inArray({{ $item->id }}, data.bookedHours) !== -1 ? '{!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}\n(Booked)' : '{!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}\n(Available)';
+                        var button = '<div class="col-md-3 mb-4"><input type="button" class="btn ' + buttonClass + '" value="' + buttonText + '" onclick="change({{ $item->id }})"></div>';
                         hoursContainer.append(button);
                     @endforeach
                 }
