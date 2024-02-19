@@ -125,7 +125,7 @@
                                                                 (Booked)
                                                             </button>
                                                         @else
-                                                            <button type="button" class="btn btn-outline-primary" onclick="change({{ $item->id }});">
+                                                            <button type="button" class="btn btn-outline-primary btnclicked" onclick="change({{ $item->id }});">
                                                                 {!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}
                                                             </button>
                                                         @endif
@@ -166,7 +166,7 @@
                     var hoursContainer = $('#hoursContainer');
                     hoursContainer.empty();
                     @foreach ($hours as $item)
-                        var buttonClass = $.inArray({{ $item->id }}, data.bookedHours) !== -1 ? 'btn-secondary btn-outline-secondary booked' : 'btn-outline-primary';
+                        var buttonClass = $.inArray({{ $item->id }}, data.bookedHours) !== -1 ? 'btn-secondary btn-outline-secondary booked' : 'btn-outline-primary btnclicked';
                         var buttonText = $.inArray({{ $item->id }}, data.bookedHours) !== -1 ? '{!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}\n(Booked)' : '{!! $item->start_time.' - '.$item->end_time.'&#x00A;'.__('Rp.').number_format($item->price, 2, ',', '.') !!}\n(Available)';
                         var button = '<div class="col-md-3 mb-4"><input type="button" class="btn ' + buttonClass + '" value="' + buttonText + '" onclick="change({{ $item->id }})"></div>';
                         hoursContainer.append(button);

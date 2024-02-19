@@ -3283,3 +3283,8 @@ section {
 .booked {
     color: white;
 }
+
+.btnclicked:focus{
+    color: white;
+    background-color: #3279FC;
+}
